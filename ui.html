@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Export Design Tokens</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        padding: 10px;
+        margin: 0;
+      }
+      button {
+        width: 100%;
+        padding: 8px;
+        font-size: 14px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <button id="exportButton">Export Design Tokens</button>
+    <script>
+      document.getElementById('exportButton').onclick = async () => {
+        console.log('Button clicked, sending message to plugin');
+        parent.postMessage({ pluginMessage: { type: 'export' } }, '*');
+      };
+
+      // Listen for the message from the main plugin code (code.js)
+      window.onmessage = async (event) => {
+        console.log('Message received from plugin:', event.data);
+        const pluginMessage = event.data.pluginMessage;
+        if (pluginMessage && pluginMessage.type === 'download') {
+          const { data } = pluginMessage;
+          const a = document.createElement('a');
+          const blob = new Blob([data], { type: 'application/json' });
+          const url = URL.createObjectURL(blob);
+
+          a.href = url;
+          a.download = 'design-tokens.json';  // Specify file name
+          a.click();  // Trigger the download
+        }
+      };
+    </script>
+  </body>
+</html>

@@ -1,0 +1,8 @@
+{
+  "name": "Nova - Export Variables to JSON",
+  "id": "nova-export-variables-json",
+  "api": "1.0.0",
+  "editorType": ["figma"],
+  "main": "code.js",
+  "ui": "ui.html"
+}
